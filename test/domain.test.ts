@@ -422,9 +422,13 @@ describe('createBaseUrlGetter', () => {
     expect(getBaseUrl({ domains: true })('fr')).toBe('http://fr.example.com')
   })
 
-  test('falls back to the current host domain, then `baseUrl`', () => {
+  test('falls back to the current host domain', () => {
     expect(getBaseUrl({ domains: true })('nl')).toBe('http://en.example.com')
-    expect(getBaseUrl({ domains: true, getDomainForHost: () => undefined })('nl')).toBe('http://localhost:3000')
+  })
+
+  test('a host matching no configured domain stays relative, never falling back to `baseUrl`', () => {
+    expect(getBaseUrl({ domains: true, getDomainForHost: () => undefined })('nl')).toBe('')
+    expect(getBaseUrl({ domains: true, getDomainForHost: () => undefined })('fr')).toBe('http://fr.example.com')
   })
 
   test('a host serving no default locale keeps its own origin', () => {

@@ -91,7 +91,7 @@ export function createBaseUrlGetter(opts: {
   const { baseUrl, appBase, domains, getDomainForHost, getDomainFromLocale } = opts
   const base = isFunction(baseUrl)
     ? baseUrl
-    : () => (domains && getDomainForHost()) || baseUrl || ''
+    : () => (domains ? getDomainForHost() : baseUrl) || ''
   return locale => joinURL((locale && getDomainFromLocale(locale)) || base(), appBase)
 }
 
